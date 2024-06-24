@@ -82,8 +82,8 @@ extern "C" {
   static void eraseFlash(int address, int length, int pageSize)
   {
 #if defined(__SAMD51__)
-    int rowSize = (pageSize * NVMCTRL->PARAM.bit.NVMP) / 64;
-    for (int i = 0; i < length; i += rowSize) {
+    int blockSize = pageSize * 16;
+    for (int i = 0; i < length; i += blockSize) {
       NVMCTRL->ADDR.reg = ((uint32_t)(address + i));
       NVMCTRL->CTRLB.reg = NVMCTRL_CTRLB_CMDEX_KEY | NVMCTRL_CTRLB_CMD_EB;
       waitForReady();
